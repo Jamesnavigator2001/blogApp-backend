@@ -1,0 +1,5 @@
+Django==5.0.2
+djangorestframework
+djangorestframework-simplejwt
+sqlparse
+psycopg2-binary

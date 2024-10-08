@@ -1,0 +1,12 @@
+/media
+media/
+venv/
+/venv
+.env
+__pycache__/
+*.pyc
+academics/migrations/0001_initial.py
+academics/migrations/0002_initial.py
+Blog/migrations/0001_initial.py
+Blog/migrations/0002_initial.py
+users/migrations/0001_initial.py

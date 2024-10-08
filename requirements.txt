@@ -3,3 +3,4 @@ djangorestframework
 djangorestframework-simplejwt
 sqlparse
 psycopg2-binary
+python-dotenv

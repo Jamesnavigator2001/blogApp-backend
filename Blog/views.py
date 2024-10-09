@@ -9,6 +9,9 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import PageNumberPagination
+from django.db.models import Q
+from users.models import CustomUser
+from users.serializers import UserSerializer
 import logging
 
 logger = logging.getLogger(__name__)
@@ -202,3 +205,49 @@ class RecordPostView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
     
+#The search logic for custom User class had to be implemented in this app  for the purpose of 
+# creating an intelligent search engine in mobile app frontend. Feel free to write separate logics
+# in each app 
+
+class SearchView(generics.ListAPIView):
+    
+    def get_queryset(self):
+        query = self.request.query_params.get('q', '')
+        search_type = self.request.query_params.get('search_type', 'post')
+
+        if not query:
+            return []
+
+        if search_type == 'teacher':
+            return CustomUser.objects.filter(
+                Q(is_teacher=True) & 
+                (Q(email__icontains=query) | Q(registration_number__icontains=query))
+            )
+        else:
+            return Post.objects.filter(
+                Q(title__icontains=query) | Q(body__icontains=query)
+            )
+    
+    def list(self, request, *args, **kwargs):
+        search_type = request.query_params.get('search_type', 'post')
+        queryset = self.get_queryset()
+
+        if not request.query_params.get('q', ''):
+            return Response({
+                'error': 'true',
+                'message': 'No search data'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        count = queryset.count()
+
+        if search_type == 'teacher':
+            serializer = UserSerializer(queryset, many=True)
+        else:
+            serializer = PostSerializer(queryset, many=True)
+
+        return Response({
+            'error': 'False',
+            'message': 'Query Success',
+            'count': count,
+            'data': serializer.data
+        }, status=status.HTTP_200_OK)

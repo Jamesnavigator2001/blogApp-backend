@@ -1,7 +1,7 @@
 from .views import (
     StudentLoginView, RegisterStudentView,
     SuperAdminLoginView, RegisterTeacherView,
-    TeacherLoginView, GetAllStudents, GetAllTeachers,
+    TeacherLoginView, GetAllStudents, GetAllTeachers
 )
 from django.urls import path
 
@@ -15,7 +15,7 @@ urlpatterns = [
     # Teacher endpoints
     path('api/teachers/register/', RegisterTeacherView.as_view(), name='register_teacher'),
     path('api/teachers/login/', TeacherLoginView.as_view(), name='login_teacher'),
-    path('api/teachers/', GetAllTeachers.as_view(), name='get_all_teachers'),  # New view for getting all teachers
+    path('api/teachers/', GetAllTeachers.as_view(), name='get_all_teachers'),  
 
      # Super admin
     path('api/super-admin-login/', SuperAdminLoginView.as_view(), name='super_admin_login'),

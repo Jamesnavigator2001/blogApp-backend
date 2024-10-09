@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from .serializers import UserSerializer,CourseSerializer
+from django.db.models import Q
 import logging
 
 # Create your views here.

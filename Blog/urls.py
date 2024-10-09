@@ -2,7 +2,7 @@ from django.urls import path,re_path
 from .views import (
     PostListView, PostDetailView, CreatePost, CourseSpecificPostsView,
      AuthorPostsView, PostCommentView,
-    DeleteAllPosts, DeletePostByID,CommentListView, RecordPostView
+    DeleteAllPosts, DeletePostByID,CommentListView, RecordPostView, SearchView
 )
 
 urlpatterns = [
@@ -21,5 +21,6 @@ urlpatterns = [
     path('api/posts/delete-all/', DeleteAllPosts.as_view(), name='delete_all_posts'),
     path('api/post/delete/<str:id>/', DeletePostByID.as_view(), name='delete_post_by_id'),
 
-
+    #search posts
+     path('api/search/', SearchView.as_view(), name='search'),
 ]
